@@ -294,6 +294,16 @@ public class mein_erster_job implements TalendJob {
 		tRowGenerator_1_onSubJobError(exception, errorComponent, globalMap);
 	}
 
+	public void tFilterRow_1_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap) throws TalendException {
+
+		end_Hash.put(errorComponent, System.currentTimeMillis());
+
+		status = "failure";
+
+		tRowGenerator_1_onSubJobError(exception, errorComponent, globalMap);
+	}
+
 	public void tLogRow_1_error(Exception exception, String errorComponent,
 			final java.util.Map<String, Object> globalMap) throws TalendException {
 
@@ -309,6 +319,203 @@ public class mein_erster_job implements TalendJob {
 
 		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread.currentThread().getId() + "", "FATAL", "",
 				exception.getMessage(), ResumeUtil.getExceptionStackTrace(exception), "");
+
+	}
+
+	public static class row2Struct implements routines.system.IPersistableRow<row2Struct> {
+		final static byte[] commonByteArrayLock_GIT_WORKSHOP_mein_erster_job = new byte[0];
+		static byte[] commonByteArray_GIT_WORKSHOP_mein_erster_job = new byte[0];
+
+		public String firstName;
+
+		public String getFirstName() {
+			return this.firstName;
+		}
+
+		public String lastName;
+
+		public String getLastName() {
+			return this.lastName;
+		}
+
+		private String readString(ObjectInputStream dis) throws IOException {
+			String strReturn = null;
+			int length = 0;
+			length = dis.readInt();
+			if (length == -1) {
+				strReturn = null;
+			} else {
+				if (length > commonByteArray_GIT_WORKSHOP_mein_erster_job.length) {
+					if (length < 1024 && commonByteArray_GIT_WORKSHOP_mein_erster_job.length == 0) {
+						commonByteArray_GIT_WORKSHOP_mein_erster_job = new byte[1024];
+					} else {
+						commonByteArray_GIT_WORKSHOP_mein_erster_job = new byte[2 * length];
+					}
+				}
+				dis.readFully(commonByteArray_GIT_WORKSHOP_mein_erster_job, 0, length);
+				strReturn = new String(commonByteArray_GIT_WORKSHOP_mein_erster_job, 0, length, utf8Charset);
+			}
+			return strReturn;
+		}
+
+		private String readString(org.jboss.marshalling.Unmarshaller unmarshaller) throws IOException {
+			String strReturn = null;
+			int length = 0;
+			length = unmarshaller.readInt();
+			if (length == -1) {
+				strReturn = null;
+			} else {
+				if (length > commonByteArray_GIT_WORKSHOP_mein_erster_job.length) {
+					if (length < 1024 && commonByteArray_GIT_WORKSHOP_mein_erster_job.length == 0) {
+						commonByteArray_GIT_WORKSHOP_mein_erster_job = new byte[1024];
+					} else {
+						commonByteArray_GIT_WORKSHOP_mein_erster_job = new byte[2 * length];
+					}
+				}
+				unmarshaller.readFully(commonByteArray_GIT_WORKSHOP_mein_erster_job, 0, length);
+				strReturn = new String(commonByteArray_GIT_WORKSHOP_mein_erster_job, 0, length, utf8Charset);
+			}
+			return strReturn;
+		}
+
+		private void writeString(String str, ObjectOutputStream dos) throws IOException {
+			if (str == null) {
+				dos.writeInt(-1);
+			} else {
+				byte[] byteArray = str.getBytes(utf8Charset);
+				dos.writeInt(byteArray.length);
+				dos.write(byteArray);
+			}
+		}
+
+		private void writeString(String str, org.jboss.marshalling.Marshaller marshaller) throws IOException {
+			if (str == null) {
+				marshaller.writeInt(-1);
+			} else {
+				byte[] byteArray = str.getBytes(utf8Charset);
+				marshaller.writeInt(byteArray.length);
+				marshaller.write(byteArray);
+			}
+		}
+
+		public void readData(ObjectInputStream dis) {
+
+			synchronized (commonByteArrayLock_GIT_WORKSHOP_mein_erster_job) {
+
+				try {
+
+					int length = 0;
+
+					this.firstName = readString(dis);
+
+					this.lastName = readString(dis);
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+
+				}
+
+			}
+
+		}
+
+		public void readData(org.jboss.marshalling.Unmarshaller dis) {
+
+			synchronized (commonByteArrayLock_GIT_WORKSHOP_mein_erster_job) {
+
+				try {
+
+					int length = 0;
+
+					this.firstName = readString(dis);
+
+					this.lastName = readString(dis);
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+
+				}
+
+			}
+
+		}
+
+		public void writeData(ObjectOutputStream dos) {
+			try {
+
+				// String
+
+				writeString(this.firstName, dos);
+
+				// String
+
+				writeString(this.lastName, dos);
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public void writeData(org.jboss.marshalling.Marshaller dos) {
+			try {
+
+				// String
+
+				writeString(this.firstName, dos);
+
+				// String
+
+				writeString(this.lastName, dos);
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public String toString() {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(super.toString());
+			sb.append("[");
+			sb.append("firstName=" + firstName);
+			sb.append(",lastName=" + lastName);
+			sb.append("]");
+
+			return sb.toString();
+		}
+
+		/**
+		 * Compare keys
+		 */
+		public int compareTo(row2Struct other) {
+
+			int returnValue = -1;
+
+			return returnValue;
+		}
+
+		private int checkNullsAndCompare(Object object1, Object object2) {
+			int returnValue = 0;
+			if (object1 instanceof Comparable && object2 instanceof Comparable) {
+				returnValue = ((Comparable) object1).compareTo(object2);
+			} else if (object1 != null && object2 != null) {
+				returnValue = compareStrings(object1.toString(), object2.toString());
+			} else if (object1 == null && object2 != null) {
+				returnValue = 1;
+			} else if (object1 != null && object2 == null) {
+				returnValue = -1;
+			} else {
+				returnValue = 0;
+			}
+
+			return returnValue;
+		}
+
+		private int compareStrings(String string1, String string2) {
+			return string1.compareTo(string2);
+		}
 
 	}
 
@@ -530,6 +737,7 @@ public class mein_erster_job implements TalendJob {
 				globalResumeTicket = true;
 
 				row1Struct row1 = new row1Struct();
+				row2Struct row2 = new row2Struct();
 
 				/**
 				 * [tLogRow_1 begin ] start
@@ -541,7 +749,7 @@ public class mein_erster_job implements TalendJob {
 				currentComponent = "tLogRow_1";
 
 				if (execStat) {
-					runStat.updateStatOnConnection(resourceMap, iterateId, 0, 0, "row1");
+					runStat.updateStatOnConnection(resourceMap, iterateId, 0, 0, "row2");
 				}
 
 				int tos_count_tLogRow_1 = 0;
@@ -667,6 +875,67 @@ public class mein_erster_job implements TalendJob {
 				 */
 
 				/**
+				 * [tFilterRow_1 begin ] start
+				 */
+
+				ok_Hash.put("tFilterRow_1", false);
+				start_Hash.put("tFilterRow_1", System.currentTimeMillis());
+
+				currentComponent = "tFilterRow_1";
+
+				if (execStat) {
+					runStat.updateStatOnConnection(resourceMap, iterateId, 0, 0, "row1");
+				}
+
+				int tos_count_tFilterRow_1 = 0;
+
+				int nb_line_tFilterRow_1 = 0;
+				int nb_line_ok_tFilterRow_1 = 0;
+				int nb_line_reject_tFilterRow_1 = 0;
+
+				class Operator_tFilterRow_1 {
+					private String sErrorMsg = "";
+					private boolean bMatchFlag = true;
+					private String sUnionFlag = "&&";
+
+					public Operator_tFilterRow_1(String unionFlag) {
+						sUnionFlag = unionFlag;
+						bMatchFlag = "||".equals(unionFlag) ? false : true;
+					}
+
+					public String getErrorMsg() {
+						if (sErrorMsg != null && sErrorMsg.length() > 1)
+							return sErrorMsg.substring(1);
+						else
+							return null;
+					}
+
+					public boolean getMatchFlag() {
+						return bMatchFlag;
+					}
+
+					public void matches(boolean partMatched, String reason) {
+						// no need to care about the next judgement
+						if ("||".equals(sUnionFlag) && bMatchFlag) {
+							return;
+						}
+
+						if (!partMatched) {
+							sErrorMsg += "|" + reason;
+						}
+
+						if ("||".equals(sUnionFlag))
+							bMatchFlag = bMatchFlag || partMatched;
+						else
+							bMatchFlag = bMatchFlag && partMatched;
+					}
+				}
+
+				/**
+				 * [tFilterRow_1 begin ] stop
+				 */
+
+				/**
 				 * [tRowGenerator_1 begin ] start
 				 */
 
@@ -727,10 +996,10 @@ public class mein_erster_job implements TalendJob {
 					 */
 
 					/**
-					 * [tLogRow_1 main ] start
+					 * [tFilterRow_1 main ] start
 					 */
 
-					currentComponent = "tLogRow_1";
+					currentComponent = "tFilterRow_1";
 
 					if (execStat) {
 						runStat.updateStatOnConnection(iterateId, 1, 1
@@ -740,52 +1009,114 @@ public class mein_erster_job implements TalendJob {
 						);
 					}
 
+					row2 = null;
+					Operator_tFilterRow_1 ope_tFilterRow_1 = new Operator_tFilterRow_1("&&");
+					ope_tFilterRow_1.matches((row1.firstName == null ? false : row1.firstName.length() == 6),
+							" firstName.length() == 6 failed");
+
+					if (ope_tFilterRow_1.getMatchFlag()) {
+						if (row2 == null) {
+							row2 = new row2Struct();
+						}
+						row2.firstName = row1.firstName;
+						row2.lastName = row1.lastName;
+						nb_line_ok_tFilterRow_1++;
+					} else {
+						nb_line_reject_tFilterRow_1++;
+					}
+
+					nb_line_tFilterRow_1++;
+
+					tos_count_tFilterRow_1++;
+
+					/**
+					 * [tFilterRow_1 main ] stop
+					 */
+
+					/**
+					 * [tFilterRow_1 process_data_begin ] start
+					 */
+
+					currentComponent = "tFilterRow_1";
+
+					/**
+					 * [tFilterRow_1 process_data_begin ] stop
+					 */
+// Start of branch "row2"
+					if (row2 != null) {
+
+						/**
+						 * [tLogRow_1 main ] start
+						 */
+
+						currentComponent = "tLogRow_1";
+
+						if (execStat) {
+							runStat.updateStatOnConnection(iterateId, 1, 1
+
+									, "row2"
+
+							);
+						}
+
 ///////////////////////		
 
-					String[] row_tLogRow_1 = new String[2];
+						String[] row_tLogRow_1 = new String[2];
 
-					if (row1.firstName != null) { //
-						row_tLogRow_1[0] = String.valueOf(row1.firstName);
+						if (row2.firstName != null) { //
+							row_tLogRow_1[0] = String.valueOf(row2.firstName);
 
-					} //
+						} //
 
-					if (row1.lastName != null) { //
-						row_tLogRow_1[1] = String.valueOf(row1.lastName);
+						if (row2.lastName != null) { //
+							row_tLogRow_1[1] = String.valueOf(row2.lastName);
 
-					} //
+						} //
 
-					util_tLogRow_1.addRow(row_tLogRow_1);
-					nb_line_tLogRow_1++;
+						util_tLogRow_1.addRow(row_tLogRow_1);
+						nb_line_tLogRow_1++;
 //////
 
 //////                    
 
 ///////////////////////    			
 
-					tos_count_tLogRow_1++;
+						tos_count_tLogRow_1++;
+
+						/**
+						 * [tLogRow_1 main ] stop
+						 */
+
+						/**
+						 * [tLogRow_1 process_data_begin ] start
+						 */
+
+						currentComponent = "tLogRow_1";
+
+						/**
+						 * [tLogRow_1 process_data_begin ] stop
+						 */
+
+						/**
+						 * [tLogRow_1 process_data_end ] start
+						 */
+
+						currentComponent = "tLogRow_1";
+
+						/**
+						 * [tLogRow_1 process_data_end ] stop
+						 */
+
+					} // End of branch "row2"
 
 					/**
-					 * [tLogRow_1 main ] stop
+					 * [tFilterRow_1 process_data_end ] start
 					 */
 
-					/**
-					 * [tLogRow_1 process_data_begin ] start
-					 */
-
-					currentComponent = "tLogRow_1";
+					currentComponent = "tFilterRow_1";
 
 					/**
-					 * [tLogRow_1 process_data_begin ] stop
-					 */
-
-					/**
-					 * [tLogRow_1 process_data_end ] start
-					 */
-
-					currentComponent = "tLogRow_1";
-
-					/**
-					 * [tLogRow_1 process_data_end ] stop
+					 * [tFilterRow_1 process_data_end ] stop
 					 */
 
 					/**
@@ -815,6 +1146,27 @@ public class mein_erster_job implements TalendJob {
 				 */
 
 				/**
+				 * [tFilterRow_1 end ] start
+				 */
+
+				currentComponent = "tFilterRow_1";
+
+				globalMap.put("tFilterRow_1_NB_LINE", nb_line_tFilterRow_1);
+				globalMap.put("tFilterRow_1_NB_LINE_OK", nb_line_ok_tFilterRow_1);
+				globalMap.put("tFilterRow_1_NB_LINE_REJECT", nb_line_reject_tFilterRow_1);
+
+				if (execStat) {
+					runStat.updateStat(resourceMap, iterateId, 2, 0, "row1");
+				}
+
+				ok_Hash.put("tFilterRow_1", true);
+				end_Hash.put("tFilterRow_1", System.currentTimeMillis());
+
+				/**
+				 * [tFilterRow_1 end ] stop
+				 */
+
+				/**
 				 * [tLogRow_1 end ] start
 				 */
 
@@ -838,7 +1190,7 @@ public class mein_erster_job implements TalendJob {
 ///////////////////////    			
 
 				if (execStat) {
-					runStat.updateStat(resourceMap, iterateId, 2, 0, "row1");
+					runStat.updateStat(resourceMap, iterateId, 2, 0, "row2");
 				}
 
 				ok_Hash.put("tLogRow_1", true);
@@ -872,6 +1224,16 @@ public class mein_erster_job implements TalendJob {
 
 				/**
 				 * [tRowGenerator_1 finally ] stop
+				 */
+
+				/**
+				 * [tFilterRow_1 finally ] start
+				 */
+
+				currentComponent = "tFilterRow_1";
+
+				/**
+				 * [tFilterRow_1 finally ] stop
 				 */
 
 				/**
@@ -1263,6 +1625,6 @@ public class mein_erster_job implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 40190 characters generated by Talend Open Studio for Data Integration on the
- * 19. Oktober 2023 um 09:13:32 MESZ
+ * 49608 characters generated by Talend Open Studio for Data Integration on the
+ * 19. Oktober 2023 um 09:50:18 MESZ
  ************************************************************************************************/
